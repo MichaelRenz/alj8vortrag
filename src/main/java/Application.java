@@ -15,6 +15,7 @@ public class Application {
 
     public static void main(String [] args) throws IOException {
 
+
         // original
         System.out.println("\n\n------------------------------------------------");
         System.out.println("The original point list:");
