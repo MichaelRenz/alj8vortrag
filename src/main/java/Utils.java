@@ -14,4 +14,14 @@ public class Utils {
         }
         return userList;
     }
+    public static List<Integer> generateIntegerList(int num) {
+        List<Integer> integerList = new ArrayList<Integer>();
+        int n = 0;
+        for (int i = 0; i < num; i++) {
+            n = (int) (Math.random()*999999);
+            integerList.add(n);
+            //System.out.println(u);
+        }
+        return integerList;
+    }
 }
