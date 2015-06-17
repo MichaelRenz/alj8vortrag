@@ -127,11 +127,13 @@
             <div id="/section-5/page-1" class="ft-page" data-id="page-1">
                 <h1>Stream Operations</h1>
                 <ul>
-                  <li class="ft-fragment step"><u>intermediate</u> vs <u>terminal</u> operations - intermediate operations are producing a stream again, e.g. <strong>filter(), map()</strong>, terminal operations do something else, e.g. <strong>forEach(), count(), collect()</strong></li>
-                  <li class="ft-fragment step"><u>filter</u> - build a new sequence which is the result of a filter applied to each element of the original collection</li>
-                  <li class="ft-fragment step"><u>map</u> - build a new sequence where each element is the result of a mapping from an element of the original sequence</li>
-                  <li class="ft-fragment step"><u>reduce</u> - produce a single result from all elements of the original sequence</li>
-                  <li class="ft-fragment step"><u>collect</u> - transforms the elements of the stream into a different kind of result, e.g. a <strong>List, Set or Map</strong></u> (useful builtin functions <strong>averagingInt, summarizingInt...</strong></li>
+                  <p><li class="ft-fragment step"><u>intermediate</u> vs <u>terminal</u> operations - intermediate operations are producing a stream again, e.g. <strong>filter(), map()</strong>, terminal operations do something else, e.g. <strong>forEach(), count(), collect()</strong></li></p>
+                  <p><li class="ft-fragment step"><u>filter</u> - build a new sequence which is the result of a filter applied to each element of the original collection</li></p>
+                  <p><li class="ft-fragment step"><u>map</u> - maps one object of the stream to exactly one other object</li></p>
+                  <p><li class="ft-fragment step"><u>reduce</u> - produce a single result from all elements of the original sequence</li></p>
+                  <p><li class="ft-fragment step"><u>collect</u> - transforms the elements of the stream into a different kind of result, e.g. a <strong>List, Set or Map</strong></u> (useful builtin functions <strong>averagingInt, summarizingInt...</strong></li></p>
+                  <p><li class="ft-fragment step"><u>flatmap</u> - transforms the elements of the stream into yet another stream</li></p>
+                	
                 </ul>
             </div>
             
@@ -140,8 +142,8 @@
             <!-- PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2   -->
             <div id="/section-5/page-2" class="ft-page" data-id="page-2">
               <h1>filter(), count() & collect() -  userAge >= 18 </h1>
-<div class="ft-fragment">
-    oldsch00l
+<div class="ft-fragment step">
+    oldsch00l - once upon a time...
     <pre><code class="language-javascript">int threshold = 18;
 List&lt;User&gt; usersOfAge = new ArrayList&lt;&gt;();
 int usersOfAgeCount = 0;
@@ -150,27 +152,23 @@ for(User u : userList) {
         usersOfAge.add(u);
         usersOfAgeCount++;
     }
-}
-//System.out.println(usersOfAgeCount);
-//System.out.println(usersOfAge.size());</code></pre>
+}</code></pre>
 </div>
-<div class="ft-fragment">
+<div class="ft-fragment step">
     <strong><center>vs</center></strong>
-    count() - we simply need the number of users matching our criterion
-    <pre><code class="language-javascript">long usersOfAgeCount = userList.stream()
-      .filter(u -&gt; u.getAge() &gt;= 18)
-      .count();
-//System.out.println(usersOfAgeCount);
-</code></pre>
+    count() - we simply want to know the number of users matching our criterion, so the result of count() is all we need.
+    <pre><code class="language-javascript">int threshold = 18;
+    long usersOfAgeCount = userList.stream()
+    .filter(u -&gt; u.getAge() &gt;= threshold)
+    .count();</code></pre>
 </div>
-<div class="ft-fragment">
+<div class="ft-fragment step">
     <strong><center>vs</center></strong>
-    collect() - we are interested in the additional info on the users matching our criterion
+    collect() - we are interested in the additional info on the users matching our criterion for further processing, so storing the result in a new list seems like a good idea.
     <pre><code class="language-javascript">int threshold = 18;
 List&lt;User&gt; usersOfAge = userList.stream()
       .filter(u -&gt; u.getAge() &gt;= threshold)
-      .collect(Collectors.toList());
-//System.out.println(usersOfAge.size());</code></pre>
+      .collect(Collectors.toList());</code></pre>
 </div>
             </div>
             
@@ -204,14 +202,18 @@ List&lt;User&gt; usersOfAge = userList.stream()
             <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
             <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
             <div id="/section-5/page-5" class="ft-page" data-id="page-5">
-                <h1>Flatmap() - transforms each element of the stream into a stream of other objects.</h1>
-                <strong>Scenario: </strong>get the <u>sum</u> of all <u>paid</u> credit notes for a <u>particular year</u> for all <u>active users</u> 
+                <h1>FlatMap() - transforms each element of the stream into a stream of one (or more!) other objects</h1>
+                <strong>Scenario: </strong>calculate the <u>sum</u> of all <u>paid</u> credit notes for a <u>particular year</u> for all <u>active users</u>, where each user can have an arbitrary number of credit notes.
 <pre>
-...
+... // some really cool users making money with zanox/awin
+
 User{
 |_firstName='Wladimir Iljitsch'
 |_lastName='Uljanow'
 |_age=145
+
+... // more funky props here
+
 |_userId=666
 |_userStatus=ACTIVE
 |_creditNotes=[	
@@ -219,16 +221,20 @@ User{
 	|___year=1890
 	|___status=CONFIRMED
 	|___amount=9999.41}, 	
-...,
+
+... // even more credit notes
+
 |___CreditNote{
 	|___year=2015
 	|___status=REJECTED
 	|___amount=6003.69}]}
-...
+
+... // even more cool zanox/awin users
 </pre>
 <pre class="ft-fragment"><code class="language-javascript">double sum = userList.stream()    							// list of all users
     .filter(u -> u.getUserStatus() == UserStatus.ACTIVE)	// only ACTIVE users
-    .flatMap(u -> u.getCreditNotes().stream())				// get new stream of all the credit notes
+    .flatMap(u -> u.getCreditNotes().stream())				// get new stream of credit note objects (from the original
+    														// stream of user objects)
     .filter(cn -> cn.getStatus() == CreditNoteStatus.PAID)	// only PAID credit notes
     .filter(cn -> cn.getYear() == 2015)						// filter by year -> 2015
     .mapToDouble(cn -> cn.getAmount())						// get the amount
