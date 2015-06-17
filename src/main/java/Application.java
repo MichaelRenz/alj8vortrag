@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by frank.vogel on 09.06.2015.
@@ -14,20 +13,23 @@ public class Application {
         //        startTime = System.nanoTime();
         //        estimatedTime = System.nanoTime() - startTime;
         System.out.println("Creating list of randomized users");
-        List<User> userList = Utils.generateUserList(10);
+        List<User> userList = Utils.generateUserList(100);
         System.out.println("Number of random users created = " + userList.size());
         List<Integer> integerList = Utils.generateIntegerList(10);
         System.out.println("Number of random Integers created = " + integerList.size());
 
 
+        userList.stream().forEach(System.out::println);
 
-        String phrase = userList
-                .stream()
-                .filter(u -> u.getAge() >= 18)
-                .map(u -> u.getFirstName())
-                .collect(Collectors.joining(" and ", "In Germany ", " are of legal age.")); // delimiter, prefix (optional), suffix (optional)
-        System.out.println(phrase);
-
+        double sum = userList.stream()
+            .filter(u -> u.getUserStatus() == UserStatus.ACTIVE)
+            .flatMap(u -> u.getCreditNotes().stream())
+            .filter(c -> c.getStatus() == CreditNoteStatus.PAID)
+            .filter(c -> c.getYear() == 2015)
+            .mapToDouble(c -> c.getAmount())
+            .sum();
+        System.out.println("Sum of all payments for the year 2015 = " + sum);
+            //.forEach(c -> System.out.println(c.getAmount()));
 /*
         System.out.println("--------------------------------------------------");
         System.out.println("Reduce - Find the oldest person");

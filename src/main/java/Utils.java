@@ -5,6 +5,8 @@ import java.util.List;
  * Created by frank.vogel on 09.06.2015.
  */
 public class Utils {
+    private static int[] years = {2000,2001,2002,2003,2004,2005,2006,2007,2007,2008,2009,2010,2011,2012,2013,2014,2015};
+
     public static List<User> generateUserList(int num) {
         List<User> userList = new ArrayList<User>();
         for(int i=0; i< num; i++) {
@@ -25,8 +27,16 @@ public class Utils {
         return integerList;
     }
 
-    public static int mapTimeInMillisToYears(long timeInMs) {
-        int years = 0;
-        return years;
+    public static List<CreditNote> generateCreditNotes(int num) {
+        List<CreditNote> creditNoteList = new ArrayList<>();
+        for(int i = 0; i < num; i++) {
+
+            CreditNote c = new CreditNote();
+            c.setYear(years[(int) ((Math.random()) * years.length)]);
+            c.setAmount(Math.random()*10000);
+            c.setStatus(CreditNoteStatus.values()[(int) ((Math.random()) * CreditNoteStatus.values().length)]);
+            creditNoteList.add(c);
+        }
+        return creditNoteList;
     }
 }

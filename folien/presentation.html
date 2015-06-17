@@ -19,8 +19,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0 minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="description" content="Flowtime.js is an open source framework for easily build HTML presentations or websites. It’s built with web standards in mind and on top of a solid full page grid layout powered by CSS3 hardware accelerated transition and comes with a complete set of Javascript API for deep customization.">
-    <title>Flowtime.js</title>
+    <title>Java 8 - Lambdas and Streams</title>
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="css/flowtime.css">
     <link rel="stylesheet" href="css/themes/default.css">
@@ -128,11 +127,11 @@
             <div id="/section-5/page-1" class="ft-page" data-id="page-1">
                 <h1>Stream Operations</h1>
                 <ul>
-                  <li class="ft-fragment"><u>intermediate</u> vs <u>terminal</u> operations - intermediate operations are producing a stream again, e.g. <strong>filter(), map()</strong>, terminal operations do something else, e.g. <strong>forEach(), count(), collect()</strong></li>
-                  <li class="ft-fragment"><u>filter</u> - build a new sequence which is the result of a filter applied to each element of the original collection</li>
-                  <li class="ft-fragment"><u>map</u> - build a new sequence where each element is the result of a mapping from an element of the original sequence</li>
-                  <li class="ft-fragment"><u>reduce</u> - produce a single result from all elements of the original sequence</li>
-                  <li class="ft-fragment"><u>collect</u> - transforms the elements of the stream into a different kind of result, e.g. a <strong>List, Set or Map</strong></u> (useful builtin functions <strong>averagingInt, summarizingInt...</strong></li>
+                  <li class="ft-fragment step"><u>intermediate</u> vs <u>terminal</u> operations - intermediate operations are producing a stream again, e.g. <strong>filter(), map()</strong>, terminal operations do something else, e.g. <strong>forEach(), count(), collect()</strong></li>
+                  <li class="ft-fragment step"><u>filter</u> - build a new sequence which is the result of a filter applied to each element of the original collection</li>
+                  <li class="ft-fragment step"><u>map</u> - build a new sequence where each element is the result of a mapping from an element of the original sequence</li>
+                  <li class="ft-fragment step"><u>reduce</u> - produce a single result from all elements of the original sequence</li>
+                  <li class="ft-fragment step"><u>collect</u> - transforms the elements of the stream into a different kind of result, e.g. a <strong>List, Set or Map</strong></u> (useful builtin functions <strong>averagingInt, summarizingInt...</strong></li>
                 </ul>
             </div>
             
@@ -200,6 +199,48 @@ List&lt;User&gt; usersOfAge = userList.stream()
 </code></pre>
 <div>will give us something like <strong>IntSummaryStatistics{count=10, sum=692, min=23, average=43.43, max=96}</strong></div>
             </div>
+        
+            <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
+            <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
+            <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
+            <div id="/section-5/page-5" class="ft-page" data-id="page-5">
+                <h1>Flatmap() - transforms each element of the stream into a stream of other objects.</h1>
+                <strong>Scenario: </strong>get the <u>sum</u> of all <u>paid</u> credit notes for a <u>particular year</u> for all <u>active users</u> 
+<pre>
+...
+User{
+|_firstName='Wladimir Iljitsch'
+|_lastName='Uljanow'
+|_age=145
+|_userId=666
+|_userStatus=ACTIVE
+|_creditNotes=[	
+|___CreditNote{
+	|___year=1890
+	|___status=CONFIRMED
+	|___amount=9999.41}, 	
+...,
+|___CreditNote{
+	|___year=2015
+	|___status=REJECTED
+	|___amount=6003.69}]}
+...
+</pre>
+<pre class="ft-fragment"><code class="language-javascript">double sum = userList.stream()    							// list of all users
+    .filter(u -> u.getUserStatus() == UserStatus.ACTIVE)	// only ACTIVE users
+    .flatMap(u -> u.getCreditNotes().stream())				// get new stream of all the credit notes
+    .filter(cn -> cn.getStatus() == CreditNoteStatus.PAID)	// only PAID credit notes
+    .filter(cn -> cn.getYear() == 2015)						// filter by year -> 2015
+    .mapToDouble(cn -> cn.getAmount())						// get the amount
+    .sum();													// sum it up
+
+</code></pre>
+				<div class="ft-fragment">
+				Sum of all payments for the year 2015 = 18429.144213877618.
+				</div>
+			</div>
+
+
         </div>
         <!-- FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO -->
         <!-- FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO -->
