@@ -141,10 +141,10 @@
             <!-- PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2   -->
             <!-- PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2 PAGE 2   -->
             <div id="/section-5/page-2" class="ft-page" data-id="page-2">
-              <h1>filter(), count() & collect() -  userAge >= 18 </h1>
+              <h1>filter(), count(), collect() -  userAge >= 18 </h1>
 <div class="ft-fragment step">
     oldsch00l - once upon a time...
-    <pre><code class="language-javascript">int threshold = 18;
+    <pre><code class="language-java">int threshold = 18;
 List&lt;User&gt; usersOfAge = new ArrayList&lt;&gt;();
 int usersOfAgeCount = 0;
 for(User u : userList) {
@@ -157,7 +157,7 @@ for(User u : userList) {
 <div class="ft-fragment step">
     <strong><center>vs</center></strong>
     count() - we simply want to know the number of users matching our criterion, so the result of count() is all we need.
-    <pre><code class="language-javascript">int threshold = 18;
+    <pre><code class="language-java">int threshold = 18;
     long usersOfAgeCount = userList.stream()
     .filter(u -&gt; u.getAge() &gt;= threshold)
     .count();</code></pre>
@@ -165,7 +165,7 @@ for(User u : userList) {
 <div class="ft-fragment step">
     <strong><center>vs</center></strong>
     collect() - we are interested in the additional info on the users matching our criterion for further processing, so storing the result in a new list seems like a good idea.
-    <pre><code class="language-javascript">int threshold = 18;
+    <pre><code class="language-java">int threshold = 18;
 List&lt;User&gt; usersOfAge = userList.stream()
       .filter(u -&gt; u.getAge() &gt;= threshold)
       .collect(Collectors.toList());</code></pre>
@@ -177,7 +177,7 @@ List&lt;User&gt; usersOfAge = userList.stream()
             <!-- PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3   -->
             <div id="/section-5/page-3" class="ft-page" data-id="page-3">
                 <h1>filter() - UserStatus.ACTIVE</h1>
-<pre><code class="language-javascript">List&lt;Integer&gt; userIDsForUsersWithFirstnameStartingWithA = userList.stream()
+<pre><code class="language-java">List&lt;Integer&gt; userIDsForUsersWithFirstnameStartingWithA = userList.stream()
     .filter(u -&gt; u.getUserStatus() == UserStatus.ACTIVE)
     .collect(Collectors.toList());
 </code></pre>
@@ -188,24 +188,29 @@ List&lt;User&gt; usersOfAge = userList.stream()
             <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
             <div id="/section-5/page-4" class="ft-page" data-id="page-4">
                 <h1>averagingInt, summarizingInt etc.</h1>
-<pre><code class="language-javascript">Double averageAge = userList.stream()
+				<div class="ft-fragment step">
+<pre><code class="language-java">Double averageAge = userList.stream()
     .collect(Collectors.averagingInt(u -> u.getAge()));
 </code></pre>
-<div>will give us something like <strong>43.43</strong></div>
-<pre><code class="language-javascript">IntSummaryStatistics ageSummary = userList.stream()
+					<div>will give us something like <strong>43.43</strong></div>
+				</div>
+				<div class="ft-fragment step">
+<pre><code class="language-java">IntSummaryStatistics ageSummary = userList.stream()
     .collect(Collectors.summarizingInt(u -> u.getAge()));
 </code></pre>
-<div>will give us something like <strong>IntSummaryStatistics{count=10, sum=692, min=23, average=43.43, max=96}</strong></div>
+					<div>will give us something like <strong>IntSummaryStatistics{count=10, sum=692, min=23, average=43.43, max=96}</strong></div>
+            	</div>
             </div>
         
-            <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
-            <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
-            <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
+            <!-- PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5   -->
+            <!-- PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5   -->
+            <!-- PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5   -->
             <div id="/section-5/page-5" class="ft-page" data-id="page-5">
                 <h1>FlatMap() - transforms each element of the stream into a stream of one (or more!) other objects</h1>
                 <strong>Scenario: </strong>calculate the <u>sum</u> of all <u>paid</u> credit notes for a <u>particular year</u> for all <u>active users</u>, where each user can have an arbitrary number of credit notes.
+				<div class="ft-fragment step">
 <pre>
-... // some really cool users making money with zanox/awin
+... // some really cool users making huge amounts of money with zanox/awin
 
 User{
 |_firstName='Wladimir Iljitsch'
@@ -214,7 +219,7 @@ User{
 
 ... // more funky props here
 
-|_userId=666
+|_userId=1337
 |_userStatus=ACTIVE
 |_creditNotes=[	
 |___CreditNote{
@@ -229,9 +234,11 @@ User{
 	|___status=REJECTED
 	|___amount=6003.69}]}
 
-... // even more cool zanox/awin users
+... // even more cool moneymaking zanox/awin users
 </pre>
-<pre class="ft-fragment"><code class="language-javascript">double sum = userList.stream()    							// list of all users
+				</div>
+				<div class="ft-fragment">
+<pre><code class="language-java">double sum = userList.stream()    							// list of all users
     .filter(u -> u.getUserStatus() == UserStatus.ACTIVE)	// only ACTIVE users
     .flatMap(u -> u.getCreditNotes().stream())				// get new stream of credit note objects (from the original
     														// stream of user objects)
@@ -241,12 +248,21 @@ User{
     .sum();													// sum it up
 
 </code></pre>
+				</div>
 				<div class="ft-fragment">
-				Sum of all payments for the year 2015 = 18429.144213877618.
+					Sum of all payments for the year 2015 = 18429.144213877618.
 				</div>
 			</div>
 
-
+            <div id="/section-5/page-5" class="ft-page" data-id="page-5">
+                <h1>Stack test</h1>
+				<div class="stack-center">
+			          <div class="ft-fragment stack-center shy">Stack 1</div>
+			          <div class="ft-fragment stack-center shy">Stack 2</div>
+			          <div class="ft-fragment stack-center shy">Stack 3</div>
+			          <div class="ft-fragment stack-center shy">Stack 4</div>
+		        </div>
+			</div>
         </div>
         <!-- FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO -->
         <!-- FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO -->
@@ -297,22 +313,28 @@ User{
         </div>
         <div class="ft-section" data-id="section-666">
             <div id="/section-666/page-1" class="ft-page" data-id="page-666">
-                <h1>/section-666/page-1</h1>
                 <div class="stack-center">
                     <div class="stacked-center">
-                        <h1><strong>Questions?</strong></h1></div>
+                        <h1><strong>Questions?</strong></h1>
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <small>Elvis has left the building...</small>
+	                </div>
                 </div>
             </div>
         </div>
-        <!-- ................................ -->
-        <!-- ................................ -->
-        <!-- ................................ -->
-        <!-- ................................ -->
     </div>
-    <!-- ................................ -->
-    <!-- ................................ -->
-    <!-- ................................ -->
-    <!-- ................................ -->
     <script src="js/brav1toolbox.js"></script>
     <script src="js/flowtime.js"></script>
     <script src="assets/js/prism.js"></script>
