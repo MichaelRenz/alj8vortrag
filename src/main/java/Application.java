@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Created by frank.vogel on 09.06.2015.
@@ -11,76 +10,99 @@ public class Application {
     public static void main(String [] args) throws IOException {
         long startTime = 0;
         long estimatedTime = 0;
-
-        System.out.println("---------- INTEGERS -------------------");
-        List<Integer> INTEGER_LIST = Utils.generateIntegerList(10_000_000);
-        startTime = System.nanoTime();
-        long n = INTEGER_LIST.stream()
-                .filter(i -> i > 50000)
-                .count();
-        estimatedTime = System.nanoTime() - startTime;
-        System.out.println("found: " + n + " ints > 50000.");
-        System.out.println("processing took: " + estimatedTime + " ns.");
-
-        startTime = System.nanoTime();
-        n = INTEGER_LIST.stream()
-                .parallel()
-                .filter(i -> i > 50000)
-                .count();
-        estimatedTime = System.nanoTime() - startTime;
-        System.out.println("found: " + n + " ints > 50000.");
-        System.out.println("processing took: " + estimatedTime + " ns.");
-
-        System.exit(13);
-
-        List<User> USER_LIST = Utils.generateUserList(50000);
-
-
-        System.out.println("---------- TOTAL USERS -------------------");
-        System.out.println("count = " + USER_LIST.size());
-
-        System.out.println("----------- FILTERED BY STATUS --------------------");
-        startTime = System.nanoTime();
-
-        n = USER_LIST.stream()
-            .filter(u -> u.getUserStatus() == UserStatus.ACTIVE)
-            .count();
-            //.forEach(u -> System.out.println(u));
-        estimatedTime = System.nanoTime() - startTime;
-        System.out.println("found: " + n + " users with status active.");
-        System.out.println("processing took: " + estimatedTime + " ns.");
-
-        System.out.println("----------- FILTERED BY STATUS (PARALLEL) --------------------");
-        startTime = System.nanoTime();
-        n = USER_LIST.stream()
-            .parallel()
-            .filter(u -> u.getUserStatus() == UserStatus.ACTIVE)
-            .count();
-            //.forEach(u -> System.out.println(u));
-        estimatedTime = System.nanoTime() - startTime;
-        System.out.println("found: " + n + " users with status active.");
-        System.out.println("processing took: " + estimatedTime + " ns.");
-
-        System.out.println("----------- FILTERED /w PREDICATE (reusable) --------------------");
-        // using predicate
-        Predicate<User> simplePredicate = u -> u.getUserStatus() == UserStatus.ACTIVE;
-        USER_LIST.stream()
-                .filter(simplePredicate)
-                .count();
-                //.forEach(u -> System.out.println(u));
+        long count = 0;
+        //        startTime = System.nanoTime();
+        //        estimatedTime = System.nanoTime() - startTime;
+        System.out.println("Creating list of randomized users");
+        List<User> userList = Utils.generateUserList(10);
+        System.out.println("Number of random users created = " + userList.size());
+        List<Integer> integerList = Utils.generateIntegerList(10);
+        System.out.println("Number of random Integers created = " + integerList.size());
 
 
 
+        String phrase = userList
+                .stream()
+                .filter(u -> u.getAge() >= 18)
+                .map(u -> u.getFirstName())
+                .collect(Collectors.joining(" and ", "In Germany ", " are of legal age.")); // delimiter, prefix (optional), suffix (optional)
+        System.out.println(phrase);
 
-        Consumer<User> changeStatus = u -> {
-            if (u.getUserStatus() == UserStatus.REJECTED) {
-                u.setUserStatus(UserStatus.SUPERUSER);
+/*
+        System.out.println("--------------------------------------------------");
+        System.out.println("Reduce - Find the oldest person");
+
+        int maxAge = 0;
+        User oldestUser = null;
+        for(User u : userList) {
+            if(u.getAge() > maxAge) {
+                maxAge = u.getAge();
+                oldestUser = u;
             }
-           // System.out.println(u);
-        };
+        }
+        System.out.println(oldestUser + " - oldsch00l...");
+
+        userList.stream()
+                .reduce((u1, u2) -> u1.getAge() > u2.getAge() ? u1 : u2)
+                .ifPresent(System.out::print);
+        System.out.println(" - with streams...");
+
+        System.out.println("--------------------------------------------------");
+
+        System.out.println("Filter - Filter by age >= 18");
+
+        List<User> usersOfAgeX = new ArrayList<>();
+        int usersOfAgeCount = 0;
+        int threshold = 18;
+        for(User u : userList) {
+            if(u.getAge() >= threshold) {
+                usersOfAgeX.add(u);
+                usersOfAgeCount++;
+            }
+        }
+        System.out.println(usersOfAgeCount + " are 18 years or older. - oldsch00l...");
+        System.out.println(usersOfAgeX.size() + " are 18 years or older. - oldsch00l...");
+
+        threshold = 18;
+        List<User> usersOfAge = userList.stream()
+            .filter(u -> u.getAge() >= 18)
+            .collect(Collectors.toList());
+        System.out.println(usersOfAge.size() + " are 18 years or older. - with streams...");
+
+        long numUsersOfAge = userList.stream()
+                .filter(u -> u.getAge() >= 18)
+                .count();
+        System.out.println(numUsersOfAge + " are 18 years or older. - with streams...");
+
+        integerList.stream()
+                .filter(n -> n % 2!= 0)
+                .sorted()
+                .forEach(System.out::println);
+
+        System.out.println("--------------------------------------------------");
+        List<String> firstNamesWithA2 = userList.stream()
+                .filter(u -> u.getFirstName().startsWith("A"))
+                //.peek(u -> System.out.println("BEFORE MAP: " + u))
+                .map(u -> u.getFirstName())
+                //.peek(u -> System.out.println("AFTER MAP: " + u))
+                .collect(Collectors.toList());
+        System.out.println(firstNamesWithA2.size() + " Persons have a first name starting with a. - with streams...");
 
 
-        USER_LIST.stream().forEach(changeStatus);
+        System.out.println("--------------------------------------------------");
+        System.out.println("Collectors - average age");
+        Double averageAge = userList.stream()
+                .collect(Collectors.averagingInt(u -> u.getAge()));
+        System.out.println(averageAge);
+
+        System.out.println("--------------------------------------------------");
+        System.out.println("Collectors - summary stats for age");
+        IntSummaryStatistics ageSummary = userList.stream()
+                .collect(Collectors.summarizingInt(u -> u.getAge()));
+        System.out.println(ageSummary);
+*/
 
     }
 }
+
+

@@ -24,4 +24,9 @@ public class Utils {
         }
         return integerList;
     }
+
+    public static int mapTimeInMillisToYears(long timeInMs) {
+        int years = 0;
+        return years;
+    }
 }
