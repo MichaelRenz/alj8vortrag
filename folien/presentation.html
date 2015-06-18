@@ -203,7 +203,12 @@ List&lt;User&gt; usersOfAge = userList.stream()
 System.out.println(phrase);
 </code></pre>
 					<div>will give us something like <strong>In Germany Francisca (26) and Rebeca (33) and Richie (53) and Perla (59) and Vanna (63) and Dominica (66) and Shara (83) and Cathie (96) are of legal age.</strong></div>
-					<small>(The join collector accepts a delimiter as well as an optional prefix and suffix.)</small>
+					<small>
+						- filter - parallel<br />
+						- sort - sequential<br />
+						- map - parallel<br />
+						- The join collector accepts a delimiter as well as an optional prefix and suffix.<br />
+					</small>
 					<br />
             	</div>
 
