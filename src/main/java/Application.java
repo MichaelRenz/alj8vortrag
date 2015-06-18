@@ -1,8 +1,11 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Created by frank.vogel on 09.06.2015.
+ * Created by elshotodore on 09.06.2015.
  */
 public class Application {
 
@@ -12,24 +15,93 @@ public class Application {
         long count = 0;
         //        startTime = System.nanoTime();
         //        estimatedTime = System.nanoTime() - startTime;
-        System.out.println("Creating list of randomized users");
-        List<User> userList = Utils.generateUserList(100);
-        System.out.println("Number of random users created = " + userList.size());
+        System.out.print("Creating list of randomized users...........");
+        List<User> userList = Utils.generateUserList(50);
+        System.out.println("Number of random users created = " + userList.size() + ".");
+
+        System.out.print("Creating list of random integers............");
         List<Integer> integerList = Utils.generateIntegerList(10);
-        System.out.println("Number of random Integers created = " + integerList.size());
+        System.out.println("Number of random Integers created = " + integerList.size() + ".");
+
+        System.out.println("--------------------------------------------------------------------------------------------------");
+        // filter(), count(), collect()
+        final int threshold = 18;
+        List<User> usersOfAge = new ArrayList<>();
+        long usersOfAgeCount = 0;
+
+        System.out.println("Determine users of age (" + threshold + ")");
+
+        for(User u : userList) {
+            if(u.getAge() >= threshold) {
+                usersOfAge.add(u);
+                usersOfAgeCount++;
+            }
+        }
+        System.out.println("oldsch00l count:      " + usersOfAgeCount);
+        System.out.println("oldsch00l list:       " + usersOfAge.size());
+
+        usersOfAgeCount = userList.stream()
+                .filter(u -> u.getAge() >= threshold)
+                .count();
+        System.out.println("filter() + count():   " + usersOfAgeCount);
 
 
-        userList.stream().forEach(System.out::println);
+        usersOfAge = userList.stream()
+                .filter(u -> u.getAge() >= threshold)
+                .collect(Collectors.toList());
+        System.out.println("filter() + collect(): " + usersOfAge.size());
 
+        System.out.println("--------------------------------------------------------------------------------------------------");
+        System.out.println("filter for active users, age > 33, first name starts with A, last name starts with T");
+        userList = Utils.generateUserList(5000);
+        //List<User> resultList =
+         userList.stream()
+        .filter(u -> u.getUserStatus() == UserStatus.ACTIVE)
+        .filter(u -> u.getAge() > 33)
+        .filter(u -> (u.getFirstName().startsWith("A") && u.getLastName().startsWith("T")))
+        .forEach(u -> System.out.println(u));
+        //.collect(Collectors.toList());
+        //System.out.println(resultList.get(0));
+
+        System.out.println("--------------------------------------------------------------------------------------------------");
+        System.out.println("average age");
+        Double averageAge = userList.stream()
+                .collect(Collectors.averagingInt(u -> u.getAge()));
+        System.out.println("Average age: " + averageAge);
+
+        System.out.println("--------------------------------------------------------------------------------------------------");
+        System.out.println("age stats");
+        IntSummaryStatistics ageSummary = userList.stream()
+                .collect(Collectors.summarizingInt(u -> u.getAge()));
+        System.out.println("Age summary statistic: " + ageSummary);
+
+        System.out.println("--------------------------------------------------------------------------------------------------");
+        System.out.println("filter(), sorted(), map(), collect()/join to build a phrase");
+
+        userList = Utils.generateUserList(10);
+        String phrase = userList
+            .parallelStream()
+            .filter(u -> u.getAge() >= 18)
+            //.sorted((u1, u2) -> u1.getAge() - u2.getAge())
+            .sorted((u1,u2) -> u1.getFirstName().compareToIgnoreCase(u2.getFirstName()))
+            .map(u -> u.getFirstName() + " (" + u.getAge() + ")")
+            .collect(Collectors.joining(" and ", "In Germany ", " are of legal age."));
+        System.out.println(phrase);
+
+        System.out.println("--------------------------------------------------------------------------------------------------");
+        System.out.println("filter(), flatMap() and calculate the sum of all payments for a specific year");
+        userList = Utils.generateUserList(500);
         double sum = userList.stream()
-            .filter(u -> u.getUserStatus() == UserStatus.ACTIVE)
-            .flatMap(u -> u.getCreditNotes().stream())
-            .filter(c -> c.getStatus() == CreditNoteStatus.PAID)
-            .filter(c -> c.getYear() == 2015)
-            .mapToDouble(c -> c.getAmount())
-            .sum();
+                .filter(u -> u.getUserStatus() == UserStatus.ACTIVE)
+                .flatMap(u -> u.getCreditNotes().stream())
+                .filter(c -> c.getStatus() == CreditNoteStatus.PAID)
+                .filter(c -> c.getYear() == 2015)
+                .mapToDouble(c -> c.getAmount())
+                .sum();
         System.out.println("Sum of all payments for the year 2015 = " + sum);
-            //.forEach(c -> System.out.println(c.getAmount()));
+
+
+
 /*
         System.out.println("--------------------------------------------------");
         System.out.println("Reduce - Find the oldest person");

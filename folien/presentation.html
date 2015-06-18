@@ -37,9 +37,9 @@
         <div class="ft-section" data-id="section-1">
             <div id="/section-1/page-1" class="ft-page" data-id="page-1" data-title="A Presentation...">
                 <div class="stack-center">
-                    <div class="stacked-center">
-                        <h1>Lambdas & Streams</h1>
-                        <br />Michael Renz, Khalil Traboulssi, Frank Vogel
+                    <div class="ft-fragment stacked-center">
+                    	<h1>Lambdas & Streams</h1>
+                    	<br />Michael Renz, Khalil Traboulssi, Frank Vogel
                     </div>
                 </div>
             </div>
@@ -68,14 +68,12 @@
                 <h1>What's coming?</h1>
                 <h2 class="ft-fragment">Stream Operations</h2>
                 <ul class="ft-fragment">
-                    <li>Filter</li>
-                    <li>Map</li>
-                    <li>Reduce</li>
-                    <li>Flat map</li>
-                    <li>Collectors (groupBy, Partitioning, Summing)</li>
-                    <li>Base terminal operations</li>
                     <li>Intermediate/terminal operations</li>
-                    <li>Optional&lt;T&gt;</li>
+                    <li>Filter</li>
+                    <li>Map / Reduce</li>
+                    <li>Flat map</li>
+                    <li>Collectors (grouping, joining, summing etc.)</li>
+                    <!-- <li>Optional&lt;T&gt;</li> -->
                 </ul>
             </div>
         </div>
@@ -127,13 +125,16 @@
             <div id="/section-5/page-1" class="ft-page" data-id="page-1">
                 <h1>Stream Operations</h1>
                 <ul>
-                  <p><li class="ft-fragment step"><u>intermediate</u> vs <u>terminal</u> operations - intermediate operations are producing a stream again, e.g. <strong>filter(), map()</strong>, terminal operations do something else, e.g. <strong>forEach(), count(), collect()</strong></li></p>
-                  <p><li class="ft-fragment step"><u>filter</u> - build a new sequence which is the result of a filter applied to each element of the original collection</li></p>
-                  <p><li class="ft-fragment step"><u>map</u> - maps one object of the stream to exactly one other object</li></p>
-                  <p><li class="ft-fragment step"><u>reduce</u> - produce a single result from all elements of the original sequence</li></p>
-                  <p><li class="ft-fragment step"><u>collect</u> - transforms the elements of the stream into a different kind of result, e.g. a <strong>List, Set or Map</strong></u> (useful builtin functions <strong>averagingInt, summarizingInt...</strong></li></p>
-                  <p><li class="ft-fragment step"><u>flatmap</u> - transforms the elements of the stream into yet another stream</li></p>
-                	
+                  <p><li class="ft-fragment step"><u>intermediate</u> vs <u>terminal</u> operations - intermediate operations are producing a stream again, e.g. <strong>filter(), map(), flatMap()</strong>, terminal operations do something else, e.g. <strong>forEach(), count(), collect()</strong></li></p>
+                  <div class="ft-fragment stack-center shy"><img class="stacked-center" src="img/fvo/8x6_filter.jpg"></div>
+                  <p><li class="ft-fragment step"><u>filter</u> - building a new sequence which is the result of a filter applied to each element of the original collection</li></p>
+                  <div class="ft-fragment stack-center shy"><img class="stacked-center" src="img/fvo/8x6_mapping.jpg"></div>
+                  <p><li class="ft-fragment step"><u>map</u> - mapping one object of the stream to <u>exactly</u> one other object</li></p>
+                  <div class="ft-fragment stack-center shy"><img class="stacked-center" src="img/fvo/8x6_reducer.jpg"></div>
+                  <p><li class="ft-fragment step"><u>reduce</u> - producing a single result from all elements of the original sequence</li></p>
+				  <div class="ft-fragment stack-center shy"><img class="stacked-center" src="img/fvo/8x6_collector.jpg"></div>
+                  <p><li class="ft-fragment step"><u>collect</u> - transforming the elements of the stream into a different kind of result, e.g. a <strong>List, Set or Map</strong></u> (useful builtin functions <strong>counting, grouping, joining, averaging, summarizing...</strong></li></p>
+                  <p><li class="ft-fragment step"><u>flatmap</u> - transforming the elements of the stream into a stream of one <u>(or more!)</u> other objects (further processing etc.)</li></p>
                 </ul>
             </div>
             
@@ -146,7 +147,7 @@
     oldsch00l - once upon a time...
     <pre><code class="language-java">int threshold = 18;
 List&lt;User&gt; usersOfAge = new ArrayList&lt;&gt;();
-int usersOfAgeCount = 0;
+long usersOfAgeCount = 0;
 for(User u : userList) {
     if(u.getAge() &gt;= threshold) {
         usersOfAge.add(u);
@@ -176,49 +177,50 @@ List&lt;User&gt; usersOfAge = userList.stream()
             <!-- PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3   -->
             <!-- PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3 PAGE 3   -->
             <div id="/section-5/page-3" class="ft-page" data-id="page-3">
-                <h1>filter() - UserStatus.ACTIVE</h1>
-<pre><code class="language-java">List&lt;Integer&gt; userIDsForUsersWithFirstnameStartingWithA = userList.stream()
-    .filter(u -&gt; u.getUserStatus() == UserStatus.ACTIVE)
-    .collect(Collectors.toList());
-</code></pre>
-            </div>
-            
-            <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
-            <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
-            <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
-            <div id="/section-5/page-4" class="ft-page" data-id="page-4">
-                <h1>averagingInt, summarizingInt etc.</h1>
+                <h1>averagingInt(), summarizingInt(), collect() - join etc.</h1>
 				<div class="ft-fragment step">
 <pre><code class="language-java">Double averageAge = userList.stream()
     .collect(Collectors.averagingInt(u -> u.getAge()));
 </code></pre>
 					<div>will give us something like <strong>43.43</strong></div>
+					<br />
 				</div>
 				<div class="ft-fragment step">
 <pre><code class="language-java">IntSummaryStatistics ageSummary = userList.stream()
     .collect(Collectors.summarizingInt(u -> u.getAge()));
 </code></pre>
 					<div>will give us something like <strong>IntSummaryStatistics{count=10, sum=692, min=23, average=43.43, max=96}</strong></div>
+					<br />
             	</div>
+            	<div class="ft-fragment step">
+<pre><code class="language-java">String phrase = userList
+    .parallelStream()																// O_o
+    .filter(u -> u.getAge() >= 18)													// older than 18?
+    .sorted((u1,u2) -> u1.getAge() - u2.getAge())									// sort by age
+    //.sorted((u1,u2) -> u1.getFirstName().compareToIgnoreCase(u2.getFirstName()))	// sort by name 
+    .map(u -> u.getFirstName() + " (" + u.getAge() + ")")							// map the user object to String "FIRSTNAME (AGE)"
+    .collect(Collectors.joining(" and ", "In Germany ", " are of legal age."));		// join
+System.out.println(phrase);
+</code></pre>
+					<div>will give us something like <strong>In Germany Francisca (26) and Rebeca (33) and Richie (53) and Perla (59) and Vanna (63) and Dominica (66) and Shara (83) and Cathie (96) are of legal age.</strong></div>
+					<small>(The join collector accepts a delimiter as well as an optional prefix and suffix.)</small>
+					<br />
+            	</div>
+
             </div>
-        
-            <!-- PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5   -->
-            <!-- PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5   -->
-            <!-- PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5 PAGE 5   -->
-            <div id="/section-5/page-5" class="ft-page" data-id="page-5">
+            <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
+            <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   -->
+            <!-- PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4 PAGE 4   --> <<div id="/section-5/page-4" class="ft-page" data-id="page-4">
                 <h1>FlatMap() - transforms each element of the stream into a stream of one (or more!) other objects</h1>
                 <strong>Scenario: </strong>calculate the <u>sum</u> of all <u>paid</u> credit notes for a <u>particular year</u> for all <u>active users</u>, where each user can have an arbitrary number of credit notes.
 				<div class="ft-fragment step">
 <pre>
 ... // some really cool users making huge amounts of money with zanox/awin
-
 User{
 |_firstName='Wladimir Iljitsch'
 |_lastName='Uljanow'
 |_age=145
-
-... // more funky props here
-
+... // more user props here
 |_userId=1337
 |_userStatus=ACTIVE
 |_creditNotes=[	
@@ -226,14 +228,11 @@ User{
 	|___year=1890
 	|___status=CONFIRMED
 	|___amount=9999.41}, 	
-
 ... // even more credit notes
-
 |___CreditNote{
 	|___year=2015
 	|___status=REJECTED
 	|___amount=6003.69}]}
-
 ... // even more cool moneymaking zanox/awin users
 </pre>
 				</div>
@@ -246,76 +245,45 @@ User{
     .filter(cn -> cn.getYear() == 2015)						// filter by year -> 2015
     .mapToDouble(cn -> cn.getAmount())						// get the amount
     .sum();													// sum it up
-
 </code></pre>
+				Sum of all payments for the year 2015 = 18429.144213877618.
 				</div>
-				<div class="ft-fragment">
-					Sum of all payments for the year 2015 = 18429.144213877618.
-				</div>
-			</div>
-
-            <div id="/section-5/page-5" class="ft-page" data-id="page-5">
-                <h1>Stack test</h1>
-				<div class="stack-center">
-			          <div class="ft-fragment stack-center shy">Stack 1</div>
-			          <div class="ft-fragment stack-center shy">Stack 2</div>
-			          <div class="ft-fragment stack-center shy">Stack 3</div>
-			          <div class="ft-fragment stack-center shy">Stack 4</div>
-		        </div>
 			</div>
         </div>
         <!-- FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO -->
         <!-- FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO -->
         <!-- FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO FVO -->
 
-
+<!--
         <div class="ft-section" data-id="section-99">
             <div id="/section-99/page-1" class="ft-page" data-id="page-1">
                 <h1>/section-99/page-1</h1>
             </div>
             <div id="/section-99/page-2" class="ft-page" data-id="page-2">
                 <h1>/section-99/page-2</h1>
-                <h1>Fragments Unleashed</h1>
-                <p>Fragments can be more than just delayed piece of page.
-                    <p>
-                        <p>Thanks to some special classes you can add a couple of useful custom behaviours.</p>
-                        <ul>
-                            <li class="ft-fragment step">The <code>.step</code> fragment will partially fades out;</li>
-                            <li class="ft-fragment shy">The <code>.shy</code> fragment will completely hides itself;</li>
-                            <li class="ft-fragment">You can use this two special fragment types to easily create special effects.</li>
-                        </ul>
-                        <p><span class="ft-fragment shy">This</span> <span class="ft-fragment shy">is</span> <span class="ft-fragment shy">a</span> <span class="ft-fragment shy"><code>.shy</code></span> <span class="ft-fragment shy">example!</span></p>
-                        <p><span class="ft-fragment step">And</span> <span class="ft-fragment step">this</span> <span class="ft-fragment step">is</span> <span class="ft-fragment step">a</span> <span class="ft-fragment step"><code>.step</code></span> <span class="ft-fragment step">one!</span></p>
             </div>
             <div id="/section-99/page-3" class="ft-page" data-id="page-3">
                 <h1>/section-99/page-3</h1>
-                <h1>Code Snippets Highlight</h1>
-                <pre><code class="language-javascript">function saySomethingSmart()
-{
-  alert("The bad craftsman blames his tools!");
-}</code></pre>
-                <pre><code class="language-css">.is-not-water {
-  display: inline-block;
-}</code></pre>
-                <pre><code class="language-markup">&lt;h1&gt;The Bad Craftsman Blames His Tools!&lt;/h1&gt;</code></pre>
-            </div>
-            <div id="/section-99/page-4" class="ft-page" data-id="page-4">
-                <h1>/section-99/page-4</h1>
-                <p>My favourite quotation:
-                    <q>The bad craftsman blames his tools</q>.</p>
-                <blockquote>
-                    Sotto un cespo di rose scarlatte dai al rospo the caldo col latte.
-                    <br> Sotto un cespo di rose paonazze tocca al rospo lavare le tazze.
-                </blockquote>
-                <p>
-                    <cite><a href="http://html5doctor.com/blockquote-q-cite/" target="_blank">Quoting and citing with &lt;blockquote&gt;, &lt;q&gt;, &lt;cite&gt;, and the cite attribute</a> </cite> on HTML5 Doctor.</p>
             </div>
         </div>
+-->
         <div class="ft-section" data-id="section-666">
             <div id="/section-666/page-1" class="ft-page" data-id="page-666">
                 <div class="stack-center">
                     <div class="stacked-center">
                         <h1><strong>Questions?</strong></h1>
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
+				        <br />
 				        <br />
 				        <br />
 				        <br />
