@@ -101,13 +101,121 @@
         <!-- KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR -->
         <div class="ft-section" data-id="section-4">
             <div id="/section-4/page-1" class="ft-page" data-id="page-1">
-                <h1>KTR/page-1</h1>
+                <h1>Getting started with streams</h1>
+                <div>
+					<p>
+						A short definition is “a sequence of elements from a source that supports aggregate operations”.
+					</p>
+					<p>
+						<strong>Sequence of elements:</strong> A stream provides an interface to a sequenced set of values of a specific element type.
+					</p>
+					<p>
+						<strong>Source:</strong> Streams consume from a data-providing source.
+					</p>
+					<p>
+						<strong>Aggregate operations:</strong> Streams support SQL-like operations and common operations from functional programing languages, such as filter, map, reduce, find, match, sorted, and so on. 
+					</p>
+                </div>
             </div>
             <div id="/section-4/page-2" class="ft-page" data-id="page-2">
-                <h1>KTR/page-2</h1>
+                <h1>Stream pipelineing</h1>
+            	<div>
+					<div class="ft-fragment step">
+<pre><code class="language-java">List&lt;Integer&gt; transactionsIds = 
+    transactions.Stream()
+    .filter(t -&gt; t.getType() == Transaction.GROCERY)
+    .sorted(comparing(Transaction::getValue).reversed())
+    .map(Transaction::getId)
+    .collect(toList());
+</code></pre>
+					</div>
+					<div class="ft-fragment step">
+						<center><img src="img/ktr/stream_pipeline.jpg" style="width:800px; height:600px;"></center>
+					</div>
+            	</div>
             </div>
             <div id="/section-4/page-3" class="ft-page" data-id="page-3">
-                <h1>KTR/page-3</h1>
+                <h1>Building streams</h1>
+                <div>
+					<p>
+						Creating a stream from values or from an array
+					</p>
+<pre><code class="language-java">Stream&lt;Integer&gt; numbersFromValues = Stream.of(1, 2, 3, 4);
+	int[] numbers = {1, 2, 3, 4};
+	IntStream numbersFromArray = Arrays.stream(numbers);
+</code></pre>
+					<p>
+						You can also convert a file in a stream of lines using the Files.lines static method
+					</p>
+<pre><code class="language-java">long numberOfLines = 
+    Files.lines(Paths.get(“yourFile.txt”), Charset.defaultCharset())
+    .count();
+</code></pre>
+                </div>
+            </div>
+             <div id="/section-4/page-4" class="ft-page" data-id="page-4">
+                <h1>Infinite streams</h1>
+                <div>
+					<p>Two static methods - Stream.iterate and Stream.generate</p>
+<pre><code class="language-java">Stream&lt;Integer&gt; numbers = Stream.iterate(0, n -> n + 10); // 0, 10, 20, 30, 40 ,50…..
+Stream<Double> doubleStream = Stream.generate(2,i->i*2); //2,4,8,16…
+
+numbers.limit(5).forEach(System.out::println); // 0, 10, 20, 30, 40
+</code></pre>
+                </div>
+            </div>
+             <div id="/section-4/page-5" class="ft-page" data-id="page-5">
+                <h1>Short circuiting</h1>
+            	<div>
+<pre><code class="language-java">List&lt;Integer&gt; numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8);
+List&lt;Integer&gt; twoEvenSquares = 
+    numbers.stream()
+    .filter(n -&gt; {
+        System.out.println("filtering " + n); 
+        return n % 2 == 0;
+    })
+    .map(n -&gt; {
+        System.out.println("mapping " + n);
+        return n * n;
+    })
+	.limit(2)
+    .collect(toList());
+
+Output:
+filtering 1
+filtering 2
+mapping 2
+filtering 3
+filtering 4
+mapping 4
+</code></pre>
+            	</div>
+            </div>
+            
+             <div id="/section-4/page-6" class="ft-page" data-id="page-6">
+                <h1>Peek for debugging </h1>
+<pre><code class="language-java">List&lt;String&gt; list = Arrays.asList("Berlin", "Paris", "London");
+list.stream().peek(System.out::println).count(); // "Berlin", "Paris", "London"
+
+list.stream().peek(System.out::println); //?
+</code></pre>
+            </div>
+
+             <div id="/section-4/page-7" class="ft-page" data-id="page-7">
+                <h1>Operations</h1>
+                <h2>Stateless Intermediate Operations</h2>
+				<ul>
+					<li>map()</li>
+					<li>filter()</li>
+					<li>peek()</li>
+				</ul>
+				<h2>Stateful Intermediate Operations</h2>
+				<ul>
+					<li>sorted() </li>
+					<li>distinct()</li>
+					<li>limit()</li>
+				</ul>
+                </h2>
             </div>
         </div>
         <!-- KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR KTR -->
