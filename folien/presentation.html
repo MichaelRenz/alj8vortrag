@@ -83,25 +83,109 @@
         <div class="ft-section" data-id="section-3">
             <div id="/section-3/page-1" class="ft-page" data-id="page-1">
                 <h1>What are lambdas?</h1>
-				
-				<p>
-					(int x, int y) -> ( x + y );
-				</p>
-				<p>
-					() -> System.out.println("Hello");
-				</p>
-				<p>
-					x -> { return x + 3};
-				</p>
-				<p class="ft-fragment step">
-					Lambdas define functionality that can be passed around
-				</p>
+				<div>
+					<p>
+						(int x, int y) -> ( x + y );
+					</p>
+					<p>
+						() -> System.out.println("Hello");
+					</p>
+					<p>
+						x -> { return x + 3};
+					</p>
+					<p class="ft-fragment step">
+						Lambdas define <strong>functionality</strong> that can be passed around.
+					</p>
+				</div>
             </div>
-            <div id="/section-3/page-2" class="ft-page" data-id="page-2">
-                <h1>MRE/page-2</h1>
+			<div id="/section-3/page-2" class="ft-page" data-id="page-1">
+                <h1>How do you use lambdas?</h1>
+				<div>
+					<div>
+<pre><code class="language-java">
+List&lt;Publisher&gt; publishers = getPublishers();
+publishers.forEach(p -> System.out.println(p.getName()));
+</code></pre>
+					</div>
+					<p class="ft-fragment step">
+					compared to
+					</p>
+					<div class="ft-fragment step">
+<pre><code class="language-java">
+List&lt;Publisher&gt; publishers = getPublishers();
+publishers.forEach(new Consumer<Publisher>() {
+	public void accept(Publisher p) {
+		System.out.println(p.getName());
+	}
+});
+</code></pre>
+					</div>
+				</div>
             </div>
-            <div id="/section-3/page-3" class="ft-page" data-id="page-3">
-                <h1>MRE/page-3</h1>
+            <div id="/section-3/page-3" class="ft-page" data-id="page-2">
+                <h1>Where can lambdas be used?</h1>
+				<p>
+					Wherever an interface with one abstract method is used. 
+				</p>
+				<div>
+<pre><code class="language-java">
+publishers.forEach(Consumer&lt;? super T&gt; action)
+		
+		
+public interface Consumer&lt;T&gt; {
+    void accept(T t);
+</code></pre>				
+				</div>
+				<div>
+<pre><code class="language-java">
+p -> System.out.println(p.getName())
+</code></pre>				
+				</div>
+            </div>
+            <div id="/section-3/page-4" class="ft-page" data-id="page-3">
+                <h1>Functional Interfaces</h1>
+				<div>
+					<ul>
+						<li>Predicate&lt;T&gt;</li>
+						<li>BiConsumer&lt;T, U&gt;</li>
+						<li>BiFunction&lt;T, U, R&gt;</li>
+						</li>...</li>
+					</ul>
+					<p>
+						not only new interfaces
+					</p>
+					<ul>
+						<li>Runnable</li>
+						<li>Comparator&lt;T&gt;</li>
+					</ul>	
+						
+					<p class="ft-fragment step">
+						@FunctionalInterface
+					</p>
+				</div>
+            </div>
+			<div id="/section-3/page-5" class="ft-page" data-id="page-3">
+                <h1>Default methods</h1>
+				<div>
+<pre><code class="language-java">
+interface Iterable&lt;T&gt; {
+...
+	default void forEach(Consumer&lt;? super T&gt; action) {
+	   Objects.requireNonNull(action);
+	   for (T t : this) {
+		   action.accept(t);
+	   }
+	}
+</code></pre>
+				</div>
+            </div>
+			<div id="/section-3/page-6" class="ft-page" data-id="page-3">
+                <h1>Method references</h1>
+				<div>
+<pre><code class="language-java">
+
+</code></pre>
+				</div>
             </div>
         </div>
         <!-- MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE -->
@@ -131,11 +215,11 @@
                 </div>
             </div>
             <div id="/section-4/page-2" class="ft-page" data-id="page-2">
-                <h1>Stream pipelineing</h1>
+                <h1>Stream pipelining</h1>
             	<div>
 					<div class="ft-fragment step">
 <pre><code class="language-java">List&lt;Integer&gt; transactionsIds = 
-    transactions.Stream()
+    transactions.stream()
     .filter(t -&gt; t.getType() == Transaction.GROCERY)
     .sorted(comparing(Transaction::getValue).reversed())
     .map(Transaction::getId)
