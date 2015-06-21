@@ -47,34 +47,9 @@
         <div class="ft-section" data-id="section-2">    
             <div id="/section-2/page-1" class="ft-page" data-id="page-1">
                 <h1>What's coming?</h1>
-                <h2 class="ft-fragment">Lambdas</h2>
-                <ul class="ft-fragment">
-                    <li>What are Lambdas?</li>
-                    <li>Functional Interfaces</li>
-                    <li>Default implementations</li>
-                    <li>TODO...Bound/unbound receiver () –> blub vs. bla::blub</li>
-                </ul>
-                <h2 class="ft-fragment">Stream Api</h2>
-                <ul class="ft-fragment">
-                    <li>General pipeline overview (wie werden die einzelnen elemente im stream verarbeitet)</li>
-                    <li>Peek for debugging purpose</li>
-                    <li>Fluent programming style</li>
-                    <li>Barriers in streams (stateful /stateless operations)</li>
-                    <li>Short circuit operation (findAny, …)</li>
-                    <li>Stream creation (Arrays.stream, Infinite stream, …)</li>
-                </ul>
-            </div>
-            <div id="/section-2/page-2" class="ft-page" data-id="page-2">
-                <h1>What's coming?</h1>
-                <h2 class="ft-fragment">Stream Operations</h2>
-                <ul class="ft-fragment">
-                    <li>Intermediate/terminal operations</li>
-                    <li>Filter</li>
-                    <li>Map / Reduce</li>
-                    <li>Flat map</li>
-                    <li>Collectors (grouping, joining, summing etc.)</li>
-                    <!-- <li>Optional&lt;T&gt;</li> -->
-                </ul>
+                <h2>Lambdas</h2>
+                <h2>Stream Api</h2>
+				<h2>Stream Operations</h2>
             </div>
         </div>
         <!-- MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE MRE -->
@@ -86,7 +61,10 @@
 				<p>
 					Lambdas define <strong>functionality</strong> that can be passed around.
 				</p>
-				<div class="ft-fragment step">
+				<div class="ft-fragment step" style="padding-top:20px;">
+					<p>
+						Some examples:
+					</p>
 					<p>
 						(int x, int y) -> ( x + y );
 					</p>
@@ -108,10 +86,11 @@ List&lt;Publisher&gt; publishers = getPublishers();
 publishers.forEach(p -> System.out.println(p.getName()));
 </code></pre>
 					</div>
-					<p class="ft-fragment step">
-					compared to
-					</p>
+					
 					<div class="ft-fragment step">
+						<p>
+							compared to
+						</p>
 <pre><code class="language-java">
 List&lt;Publisher&gt; publishers = getPublishers();
 publishers.forEach(new Consumer<Publisher>() {
@@ -153,7 +132,7 @@ p -> System.out.println(p.getName())
 						</li>...</li>
 					</ul>
 					<p>
-						also usable in old interfaces
+						also usable with old interfaces
 					</p>
 					<ul>
 						<li>Runnable</li>
@@ -181,7 +160,7 @@ interface Iterable&lt;T&gt; {
 				</div>
             </div>
 			<div id="/section-3/page-6" class="ft-page" data-id="page-3">
-                <h1>References</h1>
+                <h1>Method/Constructor references</h1>
 				<p>
 					Method references
 				</p>
