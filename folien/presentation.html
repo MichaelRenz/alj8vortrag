@@ -176,7 +176,7 @@ strings.sorted(String::compareToIgnoreCase)
 				</p>
 				<div>
 <pre><code class="language-java">
-Supplier&lt;List&gt; myList = ArrayList::new;
+List&lt;String&gt; filteredStrings = strings.filter(s -> s.length() &lt; 4).collect(toCollection(ArrayList::new));
 </code></pre>
 				</div>
             </div>
